@@ -51,13 +51,13 @@ export default function Home() {
             AZISAI ✨ ストーリー
           </h1>
           <div className="space-x-4">
-  {user ? (
-    <Link to="/new" className="bg-pink-500 px-4 py-2 rounded hover:scale-105 transition">➕ 投稿</Link>
-  ) : (
-    <Link to="/login" className="bg-purple-600 px-4 py-2 rounded hover:scale-105 transition">🔐 ログイン</Link>
-  )}
-</div>
-
+            {user ? (
+              <Link to="/new" className="bg-pink-500 px-4 py-2 rounded hover:scale-105 transition">➕ 投稿</Link>
+            ) : (
+              <Link to="/login" className="bg-purple-600 px-4 py-2 rounded hover:scale-105 transition">🔐 ログイン</Link>
+            )}
+          </div>
+        </div>
 
         {posts.length === 0 ? (
           <p className="text-center text-pink-200">まだ投稿がありません。</p>
@@ -91,21 +91,22 @@ export default function Home() {
           </div>
         )}
       </div>
-{/* ✨ Floating Sparkle Particles */}
-<ul className="absolute top-0 left-0 w-full h-full -z-20 overflow-hidden pointer-events-none">
-  {Array.from({ length: 30 }).map((_, i) => (
-    <li
-      key={i}
-      className="absolute w-1 h-1 bg-white rounded-full animate-[float_10s_linear_infinite] opacity-20"
-      style={{
-        left: `${Math.random() * 100}%`,
-        animationDelay: `${Math.random() * 10}s`,
-        top: `${Math.random() * 100}%`,
-        animationDuration: `${10 + Math.random() * 20}s`
-      }}
-    />
-  ))}
-</ul>
+
+      {/* ✨ Floating Sparkle Particles */}
+      <ul className="absolute top-0 left-0 w-full h-full -z-20 overflow-hidden pointer-events-none">
+        {Array.from({ length: 30 }).map((_, i) => (
+          <li
+            key={i}
+            className="absolute w-1 h-1 bg-white rounded-full animate-[float_10s_linear_infinite] opacity-20"
+            style={{
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 10}s`,
+              top: `${Math.random() * 100}%`,
+              animationDuration: `${10 + Math.random() * 20}s`
+            }}
+          />
+        ))}
+      </ul>
     </div>
   );
 }
