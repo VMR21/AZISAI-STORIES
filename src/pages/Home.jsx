@@ -45,97 +45,73 @@ export default function Home() {
     }
   };
 
+  useEffect(() => {
+    const stars = document.getElementById("stars");
+    if (stars && stars.childNodes.length === 0) {
+      for (let i = 0; i < 60; i++) {
+        const star = document.createElement("div");
+        star.className = "absolute rounded-full animate-pulse-glow";
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.width = `${Math.random() * 4 + 1}px`;
+        star.style.height = `${Math.random() * 4 + 1}px`;
+        star.style.backgroundColor = `rgba(147, 51, 234, ${Math.random() * 0.3 + 0.2})`;
+        stars.appendChild(star);
+      }
+    }
+  }, []);
+
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-black via-purple-950 to-pink-900 text-white p-6 overflow-hidden">
-
-      {/* 🔮 Sexy Animated Background */}
-      <div className="absolute inset-0 -z-50 pointer-events-none overflow-hidden">
-        <div className="absolute w-full h-full bg-[radial-gradient(white_1px,transparent_1px)] bg-[length:20px_20px] opacity-5 animate-stars" />
-        <div className="absolute w-[150%] h-[150%] top-[-25%] left-[-25%] bg-gradient-to-br from-fuchsia-500 via-purple-700 to-indigo-900 opacity-10 rounded-full blur-3xl animate-pulse-slow" />
-        <div className="absolute bottom-10 right-0 w-96 h-96 bg-pink-500 rounded-full blur-[120px] opacity-10 animate-spin-slower" />
+    <div className="min-h-screen bg-black text-white relative overflow-hidden flex flex-col">
+      {/* 🌌 Background Layers */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-radial-gradient from-purple-900 via-purple-950 to-black"></div>
+        <div className="absolute inset-0 bg-[url('https://v0.dev/noise.png')] opacity-20 mix-blend-soft-light"></div>
+        <div id="stars" />
       </div>
 
-      {/* 🌊 Wave */}
-      <div className="absolute bottom-0 left-0 w-full h-48 overflow-hidden z-0">
-        <div className="relative w-[200%] h-full animate-waveMotion">
-          <div className="absolute top-0 left-0 w-full h-full bg-[url('/wave.svg')] bg-repeat-x opacity-20" />
-        </div>
-      </div>
+      {/* 🔺 Header */}
+      <header className="w-full py-6 px-4 text-center bg-purple-900 bg-opacity-50 backdrop-blur-md border-b border-purple-500/10">
+        <h1 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-fuchsia-400 to-purple-500 text-transparent bg-clip-text drop-shadow animate-pulse">
+          AZISAI ✨ ストーリー
+        </h1>
+      </header>
 
-      {/* 🎵 Music Toggle */}
-      <audio id="bg-audio" loop>
-        <source src="/bg.mp3" type="audio/mpeg" />
-      </audio>
-      <button
-        onClick={() => {
-          const audio = document.getElementById("bg-audio");
-          if (audio.paused) audio.play();
-          else audio.pause();
-        }}
-        className="fixed bottom-4 right-4 bg-pink-600 text-xs px-3 py-1 rounded shadow-lg hover:bg-pink-700 z-50"
-      >
-        🎶 音楽 オン/オフ
-      </button>
-
-      {/* Header */}
-      <div className="max-w-6xl mx-auto relative z-10">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-10 gap-6 text-center sm:text-left">
-          <div>
-            <h1 className="text-5xl sm:text-6xl font-extrabold bg-gradient-to-r from-fuchsia-500 via-pink-400 to-purple-500 text-transparent bg-clip-text tracking-tight drop-shadow-2xl animate-pulse">
-              AZISAI <span className="text-yellow-300">✨</span> ストーリー
-            </h1>
-            <p className="text-sm text-white/60 mt-2">あなたの日常をここに書きましょう。</p>
-          </div>
-
-          <div className="flex justify-center sm:justify-end gap-4">
-            {user ? (
-              <Link
-                to="/new"
-                className="px-5 py-2 rounded-lg bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold shadow-lg hover:scale-105 transition"
-              >
-                ➕ 投稿
-              </Link>
-            ) : (
-              <Link
-                to="/login"
-                className="px-5 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-fuchsia-500 text-white font-semibold shadow-lg hover:scale-105 transition"
-              >
-                🔐 ログイン
-              </Link>
-            )}
-          </div>
+      {/* 🔥 Main Content */}
+      <main className="flex-grow relative z-10 px-6 py-12 max-w-6xl mx-auto w-full">
+        <div className="flex justify-end mb-8">
+          {user ? (
+            <Link
+              to="/new"
+              className="bg-pink-500 px-5 py-2 rounded-lg hover:scale-105 transition"
+            >
+              ➕ 投稿
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className="bg-purple-700 px-5 py-2 rounded-lg hover:scale-105 transition"
+            >
+              🔐 ログイン
+            </Link>
+          )}
         </div>
 
-        {/* Posts */}
         {posts.length === 0 ? (
           <p className="text-center text-pink-200 text-lg mt-20">まだ投稿がありません。</p>
         ) : (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post, index) => (
+            {posts.map((post) => (
               <div
                 key={post.id}
-                className="relative rounded-2xl p-6 bg-black/20 backdrop-blur-xl border border-fuchsia-600/30 shadow-[0_0_60px_rgba(236,72,153,0.2)] text-center hover:shadow-pink-500/40 hover:scale-105 transition duration-300"
+                className="relative rounded-2xl p-6 bg-black/20 backdrop-blur-xl border border-fuchsia-600/30 shadow-[0_0_60px_rgba(236,72,153,0.2)] hover:scale-105 transition duration-300"
               >
-                <div className="absolute top-3 left-4 text-sm text-pink-400 font-bold">
-                  #{index + 1}
-                </div>
-
-                {post.image && (
-                  <img
-                    src={post.image}
-                    className="mx-auto mb-4 h-20 w-20 object-cover rounded-full border-2 border-pink-400 shadow-md"
-                    alt="Post"
-                  />
-                )}
-
                 <Link to={`/post/${post.id}`}>
                   <h2 className="text-xl font-bold text-white mb-2 drop-shadow-sm tracking-wide hover:text-pink-400 transition">
                     {post.title}
                   </h2>
                 </Link>
-
                 <p className="text-sm text-purple-300 font-mono">{post.date}</p>
-
                 {user && (
                   <button
                     onClick={() => handleDelete(post.id, post.image)}
@@ -148,7 +124,67 @@ export default function Home() {
             ))}
           </div>
         )}
+      </main>
+
+      {/* 🌊 Wave */}
+      <div className="absolute bottom-0 left-0 w-full h-48 overflow-hidden z-0">
+        <div className="relative w-[200%] h-full animate-waveMotion">
+          <div className="absolute top-0 left-0 w-full h-full bg-[url('/wave.svg')] bg-repeat-x opacity-20" />
+        </div>
       </div>
+
+      {/* 🔻 Footer with Socials */}
+      <footer className="relative z-10 mt-auto">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-950/30 to-black pointer-events-none"></div>
+
+        <div className="relative bg-gradient-to-b from-purple-950/60 to-black/90 backdrop-blur-xl border-t border-purple-500/10 px-6 py-12 text-center">
+          <div className="flex flex-wrap justify-center gap-6 mb-4">
+            <a href="https://x.com/RATOR205" target="_blank" rel="noreferrer">
+              <img
+                src="https://i.ibb.co/dJjtLCgh/Screenshot-2025-02-13-153630-removebg-preview.png"
+                alt="X"
+                className="h-12 w-12"
+              />
+            </a>
+            <a href="https://youtube.com/@azisai-onkazi-kirinuki" target="_blank" rel="noreferrer">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png"
+                alt="YouTube"
+                className="h-12 w-12"
+              />
+            </a>
+            <a href="https://kick.com/azisai0721" target="_blank" rel="noreferrer">
+              <img
+                src="https://i.ibb.co/Zsw9SH9/images-removebg-preview.png"
+                alt="Kick"
+                className="h-12 w-16"
+              />
+            </a>
+            <a href="https://roobet.com/?ref=azisai07219" target="_blank" rel="noreferrer">
+              <img
+                src="https://i.ibb.co/8gKXJsDz/Screenshot-1-150x150-removebg-preview.png"
+                alt="Roobet"
+                className="h-12 w-12"
+              />
+            </a>
+            <a href="https://play1w.com/jpn?sub3=AZISAI07219" target="_blank" rel="noreferrer">
+              <img
+                src="https://cdn6.aptoide.com/imgs/4/9/f/49fd00da6f40e313a1164a5dce21aff8_icon.jpg?w=128"
+                alt="1Win"
+                className="h-12 w-12"
+              />
+            </a>
+            <a href="https://discord.gg/azisai" target="_blank" rel="noreferrer">
+              <img
+                src="https://i.ibb.co/81pqFsY/Screenshot-2025-02-13-153913-removebg-preview.png"
+                alt="Discord"
+                className="h-12 w-12"
+              />
+            </a>
+          </div>
+          <p className="text-purple-300 text-sm">&copy; 2025 AZISAI. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }
