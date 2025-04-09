@@ -3,23 +3,31 @@
 @tailwind utilities;
 
 body {
-  @apply bg-gradient-to-br from-black via-purple-900 to-pink-900;
+  @apply bg-gradient-to-br from-black via-purple-950 to-pink-900 text-white;
   background-size: 400% 400%;
-  animation: gradientMove 15s ease infinite;
+  animation: gradientScroll 20s ease infinite;
   font-family: 'Noto Sans JP', sans-serif;
-  color: white;
 }
 
-@keyframes gradientMove {
+@keyframes gradientScroll {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
 .glass {
-  @apply bg-white/10 backdrop-blur-lg rounded-xl shadow-lg;
+  @apply bg-white/10 backdrop-blur-lg border border-pink-400 rounded-xl shadow-lg;
 }
 
-.drop-shadow-glow {
-  text-shadow: 0 0 6px #fff, 0 0 18px #e91e63, 0 0 32px #9c27b0;
+.glow-text {
+  text-shadow: 0 0 10px #fff, 0 0 25px #e91e63, 0 0 40px #9c27b0;
+}
+
+.typewriter::after {
+  content: '|';
+  animation: blink 1s infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
