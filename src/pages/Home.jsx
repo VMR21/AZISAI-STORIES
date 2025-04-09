@@ -51,10 +51,13 @@ export default function Home() {
             AZISAI ✨ ストーリー
           </h1>
           <div className="space-x-4">
-            <Link to="/new" className="bg-pink-500 px-4 py-2 rounded hover:scale-105 transition">➕ 投稿</Link>
-            <Link to="/login" className="bg-purple-600 px-4 py-2 rounded hover:scale-105 transition">🔐 ログイン</Link>
-          </div>
-        </div>
+  {user ? (
+    <Link to="/new" className="bg-pink-500 px-4 py-2 rounded hover:scale-105 transition">➕ 投稿</Link>
+  ) : (
+    <Link to="/login" className="bg-purple-600 px-4 py-2 rounded hover:scale-105 transition">🔐 ログイン</Link>
+  )}
+</div>
+
 
         {posts.length === 0 ? (
           <p className="text-center text-pink-200">まだ投稿がありません。</p>
