@@ -31,15 +31,15 @@ export default function NewPost() {
     let imageUrl = "";
     if (imageFile) {
       const storage = getStorage();
-      const storageRef = ref(storage, `images/${Date.now()}-${imageFile.name}`);
-      await uploadBytes(storageRef, imageFile);
-      imageUrl = await getDownloadURL(storageRef);
+      const imageRef = ref(storage, `images/${Date.now()}-${imageFile.name}`);
+      await uploadBytes(imageRef, imageFile);
+      imageUrl = await getDownloadURL(imageRef);
     }
     const newPost = {
       title,
       content,
       image: imageUrl,
-      date: new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })
+      date: new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }),
     };
     try {
       await addDoc(collection(db, "posts"), newPost);
@@ -52,9 +52,11 @@ export default function NewPost() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-fuchsia-900 to-purple-950 p-6 text-white flex flex-col lg:flex-row gap-6">
-      {/* Post Editor */}
+      {/* Post Form */}
       <div className="lg:w-1/2 space-y-4">
-        <h1 className="text-3xl font-bold text-pink-300 mb-6 animate-pulse">🎨 新しい投稿</h1>
+        <h1 className="text-3xl font-extrabold text-pink-300 mb-6 glow-text animate-pulse">
+          🎨 新しい投稿
+        </h1>
 
         <input
           type="text"
@@ -96,7 +98,7 @@ export default function NewPost() {
       </div>
 
       {/* Live Preview */}
-      <div className="lg:w-1/2 bg-white/10 rounded-xl p-6 shadow-lg backdrop-blur-md animate-fadeIn">
+      <div className="lg:w-1/2 glass p-6 backdrop-blur-md shadow-lg">
         <h2 className="text-xl text-pink-400 font-bold mb-2">✨ ライブプレビュー</h2>
         {preview && (
           <img
@@ -105,7 +107,9 @@ export default function NewPost() {
             className="mb-4 w-full max-h-60 object-cover rounded"
           />
         )}
-        <h3 className="text-2xl font-semibold text-pink-300">{title || "タイトルがここに表示されます"}</h3>
+        <h3 className="text-2xl font-semibold text-pink-300">
+          {title || "タイトルがここに表示されます"}
+        </h3>
         <p className="text-sm mt-2 whitespace-pre-wrap text-white/90">
           {content || "ここにストーリーが表示されます"}
         </p>
