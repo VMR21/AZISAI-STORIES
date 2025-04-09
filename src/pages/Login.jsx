@@ -1,42 +1,59 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { checkCredentials } from "../utils/auth";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("azisai@gmail.com");
+  const [password, setPassword] = useState("azisai07219");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    if (checkCredentials(email, password)) {
-      localStorage.setItem("loggedIn", "true");
-      navigate("/new");
-    } else {
-      alert("メールまたはパスワードが正しくありません");
+  useEffect(() => {
+    const auth = getAuth();
+    const unsub = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        localStorage.setItem("loggedIn", "true");
+        navigate("/new");
+      }
+    });
+    return () => unsub();
+  }, [navigate]);
+
+  const handleLogin = async () => {
+    const auth = getAuth();
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (err) {
+      setError("ログインに失敗しました。メールアドレスとパスワードを確認してください。");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black text-white p-6">
-      <div className="bg-white/10 p-8 rounded-xl w-full max-w-md backdrop-blur">
-        <h2 className="text-2xl font-bold mb-4 text-pink-400">ログイン</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-purple-900 to-pink-900 text-white">
+      <div className="bg-white/10 backdrop-blur-lg p-8 rounded-xl shadow-xl max-w-md w-full">
+        <h1 className="text-3xl font-bold text-center mb-6 text-pink-300">AZISAI 管理者ログイン</h1>
+
+        {error && <p className="text-red-400 mb-3">{error}</p>}
+
         <input
           type="email"
           placeholder="メールアドレス"
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full mb-3 p-2 bg-black border border-pink-400 rounded"
+          className="w-full mb-4 p-3 rounded bg-black/30 border border-pink-500"
         />
         <input
           type="password"
           placeholder="パスワード"
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full mb-4 p-2 bg-black border border-pink-400 rounded"
+          className="w-full mb-6 p-3 rounded bg-black/30 border border-pink-500"
         />
         <button
           onClick={handleLogin}
-          className="w-full py-2 bg-pink-600 hover:bg-pink-700 rounded text-white font-bold"
+          className="w-full bg-gradient-to-r from-pink-500 to-purple-700 py-2 rounded text-white font-bold hover:scale-105 transition"
         >
-          ログイン
+          ログイン ➤
         </button>
       </div>
     </div>
