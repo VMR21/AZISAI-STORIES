@@ -37,14 +37,24 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-black via-purple-900 to-pink-900 text-white p-6 overflow-hidden">
-      {/* 🔮 Animated Blobs */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-0 w-72 h-72 bg-pink-400 rounded-full blur-3xl opacity-20 animate-pulse" />
-        <div className="absolute top-20 right-10 w-96 h-96 bg-purple-600 rounded-full blur-2xl opacity-25 animate-spin-slow" />
-        <div className="absolute bottom-10 left-1/3 w-64 h-64 bg-blue-400 rounded-full blur-3xl opacity-10 animate-bounce" />
-        <div className="absolute inset-0 bg-[radial-gradient(#ffffff11_1px,transparent_1px)] [background-size:16px_16px] opacity-5" />
+      
+      {/* 🌊 Animated Wave Background */}
+      <div className="absolute bottom-0 left-0 w-full h-32 z-0 overflow-hidden">
+        <svg
+          className="w-full h-full"
+          viewBox="0 0 1440 320"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill="#ec4899"
+            fillOpacity="0.3"
+            d="M0,224L60,218.7C120,213,240,203,360,181.3C480,160,600,128,720,128C840,128,960,160,1080,170.7C1200,181,1320,171,1380,165.3L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
+          ></path>
+        </svg>
       </div>
 
+      {/* ✨ Page Content */}
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-extrabold bg-gradient-to-r from-pink-400 to-purple-600 text-transparent bg-clip-text animate-pulse tracking-widest">
@@ -91,22 +101,6 @@ export default function Home() {
           </div>
         )}
       </div>
-
-      {/* ✨ Floating Sparkle Particles */}
-      <ul className="absolute top-0 left-0 w-full h-full -z-20 overflow-hidden pointer-events-none">
-        {Array.from({ length: 30 }).map((_, i) => (
-          <li
-            key={i}
-            className="absolute w-1 h-1 bg-white rounded-full animate-[float_10s_linear_infinite] opacity-20"
-            style={{
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 10}s`,
-              top: `${Math.random() * 100}%`,
-              animationDuration: `${10 + Math.random() * 20}s`
-            }}
-          />
-        ))}
-      </ul>
     </div>
   );
 }
