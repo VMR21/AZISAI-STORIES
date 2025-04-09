@@ -36,10 +36,18 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-purple-900 to-pink-900 text-white p-6">
-      <div className="max-w-6xl mx-auto">
+    <div className="relative min-h-screen bg-gradient-to-br from-black via-purple-900 to-pink-900 text-white p-6 overflow-hidden">
+      {/* 🔮 Animated Blobs */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-0 left-0 w-72 h-72 bg-pink-400 rounded-full blur-3xl opacity-20 animate-pulse" />
+        <div className="absolute top-20 right-10 w-96 h-96 bg-purple-600 rounded-full blur-2xl opacity-25 animate-spin-slow" />
+        <div className="absolute bottom-10 left-1/3 w-64 h-64 bg-blue-400 rounded-full blur-3xl opacity-10 animate-bounce" />
+        <div className="absolute inset-0 bg-[radial-gradient(#ffffff11_1px,transparent_1px)] [background-size:16px_16px] opacity-5" />
+      </div>
+
+      <div className="max-w-6xl mx-auto relative z-10">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-pink-400 to-purple-600 text-transparent bg-clip-text animate-pulse">
+          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-pink-400 to-purple-600 text-transparent bg-clip-text animate-pulse tracking-widest">
             AZISAI ✨ ストーリー
           </h1>
           <div className="space-x-4">
@@ -55,7 +63,7 @@ export default function Home() {
             {posts.map(post => (
               <div
                 key={post.id}
-                className="group glass p-4 border border-pink-400 rounded-xl shadow-lg transition-transform hover:scale-105 hover:shadow-pink-500/30 relative"
+                className="group glass p-4 border border-pink-400 rounded-xl shadow-lg transition-transform hover:scale-105 hover:shadow-pink-500/30 relative bg-black/30 backdrop-blur-md"
               >
                 <Link to={`/post/${post.id}`}>
                   {post.image && (
