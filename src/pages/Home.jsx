@@ -129,27 +129,6 @@ export default function Home() {
         <h2 className="text-2xl font-bold text-purple-100 tracking-wider">AZISAI0721</h2>
       </div>
 
-      {/* Social icons */}
-      <div className="flex justify-center flex-wrap gap-6 mb-6">
-        {[
-          ["https://x.com/RATOR205", "https://i.ibb.co/dJjtLCgh/Screenshot-2025-02-13-153630-removebg-preview.png"],
-          ["https://youtube.com/@azisai-onkazi-kirinuki", "https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png"],
-          ["https://kick.com/azisai0721", "https://i.ibb.co/Zsw9SH9/images-removebg-preview.png"],
-          ["https://roobet.com/?ref=azisai07219", "https://i.ibb.co/8gKXJsDz/Screenshot-1-150x150-removebg-preview.png"],
-          ["https://play1w.com/jpn?sub3=AZISAI07219", "https://cdn6.aptoide.com/imgs/4/9/f/49fd00da6f40e313a1164a5dce21aff8_icon.jpg?w=128"],
-          ["https://discord.gg/azisai", "https://i.ibb.co/81pqFsY/Screenshot-2025-02-13-153913-removebg-preview.png"]
-        ].map(([href, src], i) => (
-          <a
-            key={i}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transform hover:scale-110 transition duration-300"
-          >
-            <img src={src} alt="social" className="w-10 h-10 object-contain" />
-          </a>
-        ))}
-      </div>
 
       {/* Bottom Text */}
       <p className="text-purple-300 text-sm">
