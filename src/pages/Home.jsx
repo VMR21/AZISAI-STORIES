@@ -119,7 +119,7 @@ export default function Home() {
     <div className="max-w-6xl mx-auto px-4 py-12 text-center">
       {/* Profile pic + name */}
       <div className="flex flex-col items-center mb-8">
-        <div className="w-20 h-20 rounded-full overflow-hidden shadow-lg shadow-purple-500/30 mb-4">
+        <div className="w-10 h-10 rounded-full overflow-hidden shadow-lg shadow-purple-500/30 mb-4">
           <img
             src="https://files.kick.com/images/user/3299289/profile_image/conversion/0ad1c855-b1e8-4a44-b081-d2697dd34364-fullsize.webp"
             alt="AZISAI"
