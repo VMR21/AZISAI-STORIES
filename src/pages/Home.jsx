@@ -88,6 +88,21 @@ export default function Home() {
           </div>
         )}
       </div>
+{/* ✨ Floating Sparkle Particles */}
+<ul className="absolute top-0 left-0 w-full h-full -z-20 overflow-hidden pointer-events-none">
+  {Array.from({ length: 30 }).map((_, i) => (
+    <li
+      key={i}
+      className="absolute w-1 h-1 bg-white rounded-full animate-[float_10s_linear_infinite] opacity-20"
+      style={{
+        left: `${Math.random() * 100}%`,
+        animationDelay: `${Math.random() * 10}s`,
+        top: `${Math.random() * 100}%`,
+        animationDuration: `${10 + Math.random() * 20}s`
+      }}
+    />
+  ))}
+</ul>
     </div>
   );
 }
