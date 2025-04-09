@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { db } from "../firebase/firebase";
 import { collection, addDoc } from "firebase/firestore";
 
@@ -9,8 +8,6 @@ export default function NewPost() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [imageFile, setImageFile] = useState(null);
-  const [preview, setPreview] = useState(null);
 
   useEffect(() => {
     const auth = getAuth();
@@ -22,82 +19,59 @@ export default function NewPost() {
     });
   }, [navigate]);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImageFile(file);
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => setPreview(reader.result);
-      reader.readAsDataURL(file);
-    }
-  };
-
   const handleSubmit = async () => {
-    let imageUrl = "";
-
-    if (imageFile) {
-      try {
-        const storage = getStorage();
-        const metadata = { contentType: imageFile.type };
-        const imageRef = ref(storage, `images/${Date.now()}-${imageFile.name}`);
-        const uploadTask = uploadBytesResumable(imageRef, imageFile, metadata);
-
-        await new Promise((resolve, reject) => {
-          uploadTask.on("state_changed", null, reject, async () => {
-            imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
-            resolve();
-          });
-        });
-      } catch (err) {
-        alert("⚠️ 画像のアップロードに失敗しました。");
-      }
-    }
-
     const newPost = {
       title,
       content,
-      image: imageUrl,
+      image: "",
       date: new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }),
     };
 
     try {
       await addDoc(collection(db, "posts"), newPost);
+      alert("✅ 投稿完了！");
       navigate("/");
     } catch {
-      alert("投稿に失敗しました。");
+      alert("❌ 投稿に失敗しました。");
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-purple-900 to-pink-900 text-white p-6 flex flex-col lg:flex-row gap-6">
-      <div className="lg:w-1/2 space-y-4">
-        <h1 className="text-3xl font-bold text-pink-400">🎨 新しい投稿</h1>
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-black via-fuchsia-900 to-purple-950 text-white p-6 flex justify-center items-start">
+      {/* CRAZY ANIMATED BG LIGHTS */}
+      <div className="absolute top-0 left-0 w-full h-full z-0 overflow-hidden">
+        <div className="absolute bg-pink-500 opacity-20 w-[300px] h-[300px] rounded-full blur-3xl animate-pulse left-10 top-10" />
+        <div className="absolute bg-purple-500 opacity-20 w-[400px] h-[400px] rounded-full blur-2xl animate-spin-slow right-0 top-20" />
+        <div className="absolute bg-blue-500 opacity-10 w-[200px] h-[200px] rounded-full blur-xl animate-bounce bottom-10 left-[40%]" />
+      </div>
+
+      {/* FORM CONTAINER */}
+      <div className="z-10 w-full max-w-3xl glass p-8 backdrop-blur-xl border border-fuchsia-500/30 rounded-xl shadow-2xl">
+        <h1 className="text-4xl font-extrabold text-center mb-8 bg-gradient-to-r from-pink-400 to-blue-500 text-transparent bg-clip-text animate-pulse">
+          🚀 AZISAI投稿エディター
+        </h1>
 
         <input
           type="text"
-          placeholder="タイトル"
+          placeholder="✨ タイトルを入力してください"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full bg-black/40 border border-pink-500 p-3 rounded"
+          className="w-full bg-black/50 text-white/90 p-4 rounded-lg border border-pink-500 focus:ring-2 focus:ring-pink-400 text-xl mb-6"
         />
 
         <textarea
-          placeholder="ストーリー"
+          placeholder="🌈 ストーリーを書く時間です！"
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          rows="6"
-          className="w-full bg-black/40 border border-pink-500 p-3 rounded"
+          rows="10"
+          className="w-full bg-black/50 text-white/90 p-4 rounded-lg border border-purple-500 focus:ring-2 focus:ring-purple-400 text-lg"
         ></textarea>
-
-        <input type="file" accept="image/*" onChange={handleImageChange} className="text-pink-300" />
-
-        {preview && <img src={preview} className="max-h-60 object-cover rounded border border-pink-500" />}
 
         <button
           onClick={handleSubmit}
-          className="w-full bg-pink-600 py-3 rounded font-bold hover:scale-105 transition"
+          className="mt-8 w-full bg-gradient-to-r from-pink-600 via-purple-600 to-fuchsia-500 hover:scale-105 transition shadow-xl text-lg py-3 font-bold rounded-lg"
         >
-          🚀 投稿
+          💾 投稿を保存する
         </button>
       </div>
     </div>
