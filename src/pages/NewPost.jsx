@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { db } from "../firebase/firebase";
 import { collection, addDoc } from "firebase/firestore";
 
@@ -33,14 +33,30 @@ export default function NewPost() {
     if (imageFile) {
       try {
         const storage = getStorage();
+        const metadata = {
+          contentType: imageFile.type,
+        };
         const imageRef = ref(storage, `images/${Date.now()}-${imageFile.name}`);
-        console.log("⏫ Uploading image to Firebase Storage...");
-        await uploadBytes(imageRef, imageFile);
-        imageUrl = await getDownloadURL(imageRef);
-        console.log("✅ Image uploaded:", imageUrl);
+        console.log("⏫ Uploading with metadata...");
+
+        const uploadTask = uploadBytesResumable(imageRef, imageFile, metadata);
+
+        await new Promise((resolve, reject) => {
+          uploadTask.on(
+            "state_changed",
+            null,
+            (error) => reject(error),
+            async () => {
+              imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
+              console.log("✅ Upload complete:", imageUrl);
+              resolve();
+            }
+          );
+        });
       } catch (err) {
         console.error("🔥 IMAGE UPLOAD ERROR:", err.message);
         alert("⚠️ 画像のアップロードに失敗しましたが、テキストのみ投稿されます。");
+        imageUrl = "";
       }
     }
 
@@ -52,7 +68,6 @@ export default function NewPost() {
     };
 
     try {
-      console.log("📝 Posting to Firestore...", newPost);
       await addDoc(collection(db, "posts"), newPost);
       alert("✅ 投稿完了！");
       navigate("/");
