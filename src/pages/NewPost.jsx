@@ -29,24 +29,36 @@ export default function NewPost() {
 
   const handleSubmit = async () => {
     let imageUrl = "";
+
     if (imageFile) {
-      const storage = getStorage();
-      const imageRef = ref(storage, `images/${Date.now()}-${imageFile.name}`);
-      await uploadBytes(imageRef, imageFile);
-      imageUrl = await getDownloadURL(imageRef);
+      try {
+        const storage = getStorage();
+        const imageRef = ref(storage, `images/${Date.now()}-${imageFile.name}`);
+        console.log("⏫ Uploading image to Firebase Storage...");
+        await uploadBytes(imageRef, imageFile);
+        imageUrl = await getDownloadURL(imageRef);
+        console.log("✅ Image uploaded:", imageUrl);
+      } catch (err) {
+        console.error("🔥 IMAGE UPLOAD ERROR:", err.message);
+        alert("⚠️ 画像のアップロードに失敗しましたが、テキストのみ投稿されます。");
+      }
     }
+
     const newPost = {
       title,
       content,
       image: imageUrl,
       date: new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }),
     };
+
     try {
+      console.log("📝 Posting to Firestore...", newPost);
       await addDoc(collection(db, "posts"), newPost);
+      alert("✅ 投稿完了！");
       navigate("/");
     } catch (error) {
-      console.error("Error adding document: ", error);
-      alert("投稿に失敗しました。");
+      console.error("🚫 投稿失敗:", error);
+      alert("投稿に失敗しました。もう一度試してください。");
     }
   };
 
