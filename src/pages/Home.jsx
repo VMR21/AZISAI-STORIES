@@ -133,9 +133,24 @@ export default function Home() {
         </div>
       </div>
 
- <footer className="relative z-10 mt-24">
-  <div className="bg-gradient-to-b from-transparent via-purple-950/40 to-black pt-12 pb-8 px-6 text-center border-t border-purple-700/20">
-    <div className="flex justify-center items-center flex-wrap gap-6 mb-6">
+<footer className="relative z-10 mt-24 text-center">
+  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/60 to-black pointer-events-none"></div>
+  <div className="relative z-10 max-w-4xl mx-auto px-4 py-12">
+    
+    {/* Profile Image */}
+    <div className="flex justify-center mb-4">
+      <img
+        src="https://files.kick.com/images/user/3299289/profile_image/conversion/0ad1c855-b1e8-4a44-b081-d2697dd34364-fullsize.webp"
+        alt="AZISAI"
+        className="w-16 h-16 rounded-full border-2 border-purple-400 shadow-lg"
+      />
+    </div>
+
+    {/* Name */}
+    <h2 className="text-xl font-bold text-white mb-6 tracking-wider">AZISAI0721</h2>
+
+    {/* Social Icons */}
+    <div className="flex justify-center flex-wrap gap-6 mb-6">
       {[
         ["https://x.com/RATOR205", "https://i.ibb.co/dJjtLCgh/Screenshot-2025-02-13-153630-removebg-preview.png"],
         ["https://youtube.com/@azisai-onkazi-kirinuki", "https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png"],
@@ -144,14 +159,21 @@ export default function Home() {
         ["https://play1w.com/jpn?sub3=AZISAI07219", "https://cdn6.aptoide.com/imgs/4/9/f/49fd00da6f40e313a1164a5dce21aff8_icon.jpg?w=128"],
         ["https://discord.gg/azisai", "https://i.ibb.co/81pqFsY/Screenshot-2025-02-13-153913-removebg-preview.png"]
       ].map(([link, img], i) => (
-        <a href={link} key={i} target="_blank" rel="noreferrer">
-          <img src={img} alt="social" className="h-10 w-10 object-contain hover:scale-110 transition" />
+        <a key={i} href={link} target="_blank" rel="noreferrer">
+          <img
+            src={img}
+            alt="social"
+            className="h-10 w-10 object-contain hover:scale-110 transition"
+          />
         </a>
       ))}
     </div>
-    <p className="text-sm text-purple-300">© 2025 AZISAI. All rights reserved.</p>
+
+    {/* Copyright */}
+    <p className="text-sm text-purple-300">&copy; 2025 AZISAI. All rights reserved.</p>
   </div>
 </footer>
+
 
     </div>
   );
