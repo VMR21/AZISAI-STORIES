@@ -112,34 +112,46 @@ export default function Home() {
       </div>
 
       {/* 👣 Footer */}
-      <footer className="relative z-10 bg-gradient-to-b from-transparent via-purple-900/60 to-black text-white text-center pt-12 pb-8">
-        <div className="flex justify-center mb-4">
-          <img
-            src="https://files.kick.com/images/user/3299289/profile_image/conversion/0ad1c855-b1e8-4a44-b081-d2697dd34364-fullsize.webp"
-            className="w-14 h-14 rounded-full shadow-md"
-          />
-        </div>
-        <h2 className="text-xl font-bold mb-4">AZISAI0721</h2>
+      <footer className="bg-gradient-to-b from-purple-900 via-purple-950 to-black text-white text-center pt-12 pb-6 mt-16">
+  <div className="flex justify-center mb-4">
+    <img
+      src="https://files.kick.com/images/user/3299289/profile_image/conversion/0ad1c855-b1e8-4a44-b081-d2697dd34364-fullsize.webp"
+      alt="AZISAI Avatar"
+      className="w-16 h-16 rounded-full shadow-md border-2 border-pink-500"
+    />
+  </div>
+  <h2 className="text-xl font-bold text-white mb-4">AZISAI0721</h2>
 
-        <div className="flex justify-center flex-wrap gap-6 mb-4">
-          {[
-            ["https://x.com/RATOR205", "https://i.ibb.co/dJjtLCgh/Screenshot-2025-02-13-153630-removebg-preview.png"],
-            ["https://youtube.com/@azisai-onkazi-kirinuki", "https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png"],
-            ["https://kick.com/azisai0721", "https://i.ibb.co/Zsw9SH9/images-removebg-preview.png"],
-            ["https://roobet.com/?ref=azisai07219", "https://i.ibb.co/8gKXJsDz/Screenshot-1-150x150-removebg-preview.png"],
-            ["https://play1w.com/jpn?sub3=AZISAI07219", "https://cdn6.aptoide.com/imgs/4/9/f/49fd00da6f40e313a1164a5dce21aff8_icon.jpg?w=128"],
-            ["https://discord.gg/azisai", "https://i.ibb.co/81pqFsY/Screenshot-2025-02-13-153913-removebg-preview.png"]
-          ].map(([link, img], i) => (
-            <a key={i} href={link} target="_blank" rel="noreferrer">
-              <img src={img} className="w-10 h-10 object-contain hover:scale-110 transition" />
-            </a>
-          ))}
-        </div>
+  <div className="flex justify-center gap-6 flex-wrap items-center mb-6">
+    {[
+      ["https://x.com/RATOR205", "https://i.ibb.co/dJjtLCgh/Screenshot-2025-02-13-153630-removebg-preview.png"],
+      ["https://youtube.com/@azisai-onkazi-kirinuki", "https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png"],
+      ["https://kick.com/azisai0721", "https://i.ibb.co/Zsw9SH9/images-removebg-preview.png"],
+      ["https://roobet.com/?ref=azisai07219", "https://i.ibb.co/8gKXJsDz/Screenshot-1-150x150-removebg-preview.png"],
+      ["https://play1w.com/jpn?sub3=AZISAI07219", "https://cdn6.aptoide.com/imgs/4/9/f/49fd00da6f40e313a1164a5dce21aff8_icon.jpg?w=128"],
+      ["https://discord.gg/azisai", "https://i.ibb.co/81pqFsY/Screenshot-2025-02-13-153913-removebg-preview.png"],
+    ].map(([url, img], i) => (
+      <a
+        key={i}
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="hover:scale-110 transition transform"
+      >
+        <img
+          src={img}
+          alt="Social Icon"
+          className="w-10 h-10 object-contain"
+        />
+      </a>
+    ))}
+  </div>
 
-        <p className="text-sm text-purple-300">
-          &copy; 2025 AZISAI. All rights reserved.
-        </p>
-      </footer>
+  <p className="text-purple-300 text-xs">
+    &copy; 2025 AZISAI. All rights reserved.
+  </p>
+</footer>
+
     </div>
   );
 }
