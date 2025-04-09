@@ -133,58 +133,26 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 🔻 Footer with Socials */}
-      <footer className="relative z-10 mt-auto">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-950/30 to-black pointer-events-none"></div>
+ <footer className="relative z-10 mt-24">
+  <div className="bg-gradient-to-b from-transparent via-purple-950/40 to-black pt-12 pb-8 px-6 text-center border-t border-purple-700/20">
+    <div className="flex justify-center items-center flex-wrap gap-6 mb-6">
+      {[
+        ["https://x.com/RATOR205", "https://i.ibb.co/dJjtLCgh/Screenshot-2025-02-13-153630-removebg-preview.png"],
+        ["https://youtube.com/@azisai-onkazi-kirinuki", "https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png"],
+        ["https://kick.com/azisai0721", "https://i.ibb.co/Zsw9SH9/images-removebg-preview.png"],
+        ["https://roobet.com/?ref=azisai07219", "https://i.ibb.co/8gKXJsDz/Screenshot-1-150x150-removebg-preview.png"],
+        ["https://play1w.com/jpn?sub3=AZISAI07219", "https://cdn6.aptoide.com/imgs/4/9/f/49fd00da6f40e313a1164a5dce21aff8_icon.jpg?w=128"],
+        ["https://discord.gg/azisai", "https://i.ibb.co/81pqFsY/Screenshot-2025-02-13-153913-removebg-preview.png"]
+      ].map(([link, img], i) => (
+        <a href={link} key={i} target="_blank" rel="noreferrer">
+          <img src={img} alt="social" className="h-10 w-10 object-contain hover:scale-110 transition" />
+        </a>
+      ))}
+    </div>
+    <p className="text-sm text-purple-300">© 2025 AZISAI. All rights reserved.</p>
+  </div>
+</footer>
 
-        <div className="relative bg-gradient-to-b from-purple-950/60 to-black/90 backdrop-blur-xl border-t border-purple-500/10 px-6 py-12 text-center">
-          <div className="flex flex-wrap justify-center gap-6 mb-4">
-            <a href="https://x.com/RATOR205" target="_blank" rel="noreferrer">
-              <img
-                src="https://i.ibb.co/dJjtLCgh/Screenshot-2025-02-13-153630-removebg-preview.png"
-                alt="X"
-                className="h-12 w-12"
-              />
-            </a>
-            <a href="https://youtube.com/@azisai-onkazi-kirinuki" target="_blank" rel="noreferrer">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png"
-                alt="YouTube"
-                className="h-12 w-12"
-              />
-            </a>
-            <a href="https://kick.com/azisai0721" target="_blank" rel="noreferrer">
-              <img
-                src="https://i.ibb.co/Zsw9SH9/images-removebg-preview.png"
-                alt="Kick"
-                className="h-12 w-16"
-              />
-            </a>
-            <a href="https://roobet.com/?ref=azisai07219" target="_blank" rel="noreferrer">
-              <img
-                src="https://i.ibb.co/8gKXJsDz/Screenshot-1-150x150-removebg-preview.png"
-                alt="Roobet"
-                className="h-12 w-12"
-              />
-            </a>
-            <a href="https://play1w.com/jpn?sub3=AZISAI07219" target="_blank" rel="noreferrer">
-              <img
-                src="https://cdn6.aptoide.com/imgs/4/9/f/49fd00da6f40e313a1164a5dce21aff8_icon.jpg?w=128"
-                alt="1Win"
-                className="h-12 w-12"
-              />
-            </a>
-            <a href="https://discord.gg/azisai" target="_blank" rel="noreferrer">
-              <img
-                src="https://i.ibb.co/81pqFsY/Screenshot-2025-02-13-153913-removebg-preview.png"
-                alt="Discord"
-                className="h-12 w-12"
-              />
-            </a>
-          </div>
-          <p className="text-purple-300 text-sm">&copy; 2025 AZISAI. All rights reserved.</p>
-        </div>
-      </footer>
     </div>
   );
 }
