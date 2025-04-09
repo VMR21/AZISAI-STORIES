@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Login() {
-  const [email, setEmail] = useState("azisai@gmail.com");
-  const [password, setPassword] = useState("azisai07219");
+  const [email, setEmail] = useState(""); // ❌ Removed default value
+  const [password, setPassword] = useState(""); // ❌ Removed default value
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -14,7 +14,7 @@ export default function Login() {
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/new");
     } catch {
-      setError("ログインに失敗しました。");
+      setError("ログインに失敗しました。メールアドレスとパスワードを確認してください。");
     }
   };
 
@@ -23,9 +23,10 @@ export default function Login() {
       <div className="glass p-8 rounded-xl shadow-xl w-full max-w-md">
         <h1 className="text-3xl font-bold mb-4 text-pink-300">AZISAI 管理者ログイン</h1>
         {error && <p className="text-red-400 mb-3">{error}</p>}
+
         <input
           type="email"
-          placeholder="メール"
+          placeholder="メールアドレス"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full mb-4 p-3 rounded bg-black/30 border border-pink-500"
