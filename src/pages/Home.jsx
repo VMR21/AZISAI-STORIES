@@ -47,32 +47,56 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-black via-purple-950 to-pink-900 text-white p-6 overflow-hidden">
-      
-      {/* 🌊 Motion Wave Background */}
+
+      {/* 🌌 Star Background */}
+      <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
+        <div className="w-full h-full bg-[radial-gradient(white_1px,transparent_1px)] bg-[length:20px_20px] opacity-5 animate-stars" />
+      </div>
+
+      {/* 🌊 Wave Background */}
       <div className="absolute bottom-0 left-0 w-full h-48 overflow-hidden z-0">
         <div className="relative w-[200%] h-full animate-waveMotion">
-          <div className="absolute top-0 left-0 w-full h-full bg-[url('/wave.svg')] bg-repeat-x opacity-30" />
+          <div className="absolute top-0 left-0 w-full h-full bg-[url('/wave.svg')] bg-repeat-x opacity-20" />
         </div>
       </div>
 
-      {/* ✨ Header */}
+      {/* 🎵 Music Toggle */}
+      <audio id="bg-audio" loop>
+        <source src="/bg.mp3" type="audio/mpeg" />
+      </audio>
+      <button
+        onClick={() => {
+          const audio = document.getElementById("bg-audio");
+          if (audio.paused) audio.play();
+          else audio.pause();
+        }}
+        className="fixed bottom-4 right-4 bg-pink-600 text-xs px-3 py-1 rounded shadow-lg hover:bg-pink-700 z-50"
+      >
+        🎶 音楽 オン/オフ
+      </button>
+
+      {/* Header */}
       <div className="max-w-6xl mx-auto relative z-10">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-pink-400 to-purple-600 text-transparent bg-clip-text animate-pulse tracking-widest drop-shadow-lg">
-            AZISAI ✨ ストーリー
-          </h1>
-          <div className="space-x-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-10 gap-6 text-center sm:text-left">
+          <div>
+            <h1 className="text-5xl sm:text-6xl font-extrabold bg-gradient-to-r from-fuchsia-500 via-pink-400 to-purple-500 text-transparent bg-clip-text tracking-tight drop-shadow-2xl animate-pulse">
+              AZISAI <span className="text-yellow-300">✨</span> ストーリー
+            </h1>
+            <p className="text-sm text-white/60 mt-2">あなたの日常をここに書きましょう。</p>
+          </div>
+
+          <div className="flex justify-center sm:justify-end gap-4">
             {user ? (
               <Link
                 to="/new"
-                className="bg-pink-500 px-4 py-2 rounded hover:scale-105 transition shadow-md"
+                className="px-5 py-2 rounded-lg bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold shadow-lg hover:scale-105 transition"
               >
                 ➕ 投稿
               </Link>
             ) : (
               <Link
                 to="/login"
-                className="bg-purple-600 px-4 py-2 rounded hover:scale-105 transition shadow-md"
+                className="px-5 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-fuchsia-500 text-white font-semibold shadow-lg hover:scale-105 transition"
               >
                 🔐 ログイン
               </Link>
@@ -80,22 +104,20 @@ export default function Home() {
           </div>
         </div>
 
-        {/* 🧊 Post Cards */}
+        {/* Post Grid */}
         {posts.length === 0 ? (
-          <p className="text-center text-pink-200">まだ投稿がありません。</p>
+          <p className="text-center text-pink-200 text-lg mt-20">まだ投稿がありません。</p>
         ) : (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((post, index) => (
               <div
                 key={post.id}
-                className="relative rounded-2xl p-6 bg-gradient-to-br from-purple-800 via-purple-900 to-purple-950 border border-fuchsia-600/30 shadow-[0_0_60px_rgba(236,72,153,0.3)] text-center hover:shadow-pink-500/40 hover:scale-105 transition duration-300"
+                className="relative rounded-2xl p-6 bg-black/20 backdrop-blur-xl border border-fuchsia-600/30 shadow-[0_0_60px_rgba(236,72,153,0.2)] text-center hover:shadow-pink-500/40 hover:scale-105 transition duration-300"
               >
-                {/* Rank */}
                 <div className="absolute top-3 left-4 text-sm text-pink-400 font-bold">
                   #{index + 1}
                 </div>
 
-                {/* Optional image */}
                 {post.image && (
                   <img
                     src={post.image}
@@ -104,15 +126,11 @@ export default function Home() {
                   />
                 )}
 
-                {/* Title */}
                 <h2 className="text-xl font-bold text-white mb-2 drop-shadow-sm tracking-wide">
                   {post.title}
                 </h2>
-
-                {/* Date */}
                 <p className="text-sm text-purple-300 font-mono">{post.date}</p>
 
-                {/* Delete */}
                 {user && (
                   <button
                     onClick={() => handleDelete(post.id, post.image)}
