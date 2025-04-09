@@ -52,39 +52,52 @@ export default function NewPost() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-fuchsia-900 to-purple-950 p-6 text-white flex flex-col lg:flex-row gap-6">
+      {/* Post Editor */}
       <div className="lg:w-1/2 space-y-4">
-        <h1 className="text-3xl font-bold text-pink-300 mb-6">投稿を作成する</h1>
+        <h1 className="text-3xl font-bold text-pink-300 mb-6 animate-pulse">🎨 新しい投稿</h1>
+
         <input
           type="text"
-          placeholder="タイトル"
+          placeholder="タイトルを入力"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full bg-black/40 border border-pink-500 p-3 rounded mb-4 text-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+          className="w-full bg-black/40 border border-pink-500 p-3 rounded text-lg focus:outline-none focus:ring-2 focus:ring-pink-500 transition"
         />
+
         <textarea
-          placeholder="ここにストーリーを記入してください..."
+          placeholder="ここにストーリーを書いてください..."
           value={content}
           onChange={(e) => setContent(e.target.value)}
           rows="8"
-          className="w-full bg-black/40 border border-pink-500 p-3 rounded mb-4 h-40 focus:outline-none focus:ring-2 focus:ring-pink-500"
+          className="w-full bg-black/40 border border-pink-500 p-3 rounded h-40 focus:outline-none focus:ring-2 focus:ring-pink-500 transition"
         ></textarea>
-        <input type="file" accept="image/*" onChange={handleImageChange} className="mb-4" />
+
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="mb-4 text-sm text-pink-200"
+        />
+
         {preview && (
           <img
             src={preview}
             alt="プレビュー"
-            className="mb-4 w-full max-h-60 object-cover rounded shadow border border-pink-400"
+            className="rounded w-full max-h-60 object-cover border border-pink-500 shadow-lg hover:scale-105 transition"
           />
         )}
+
         <button
           onClick={handleSubmit}
-          className="mt-4 w-full bg-gradient-to-r from-pink-500 to-purple-600 py-3 text-lg font-bold rounded hover:scale-105 transition"
+          className="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold text-lg rounded hover:scale-105 transition"
         >
           🚀 投稿する
         </button>
       </div>
-      <div className="lg:w-1/2 bg-white/10 rounded-xl p-6 shadow-lg backdrop-blur-md">
-        <h2 className="text-xl text-pink-400 font-bold mb-2">ライブプレビュー</h2>
+
+      {/* Live Preview */}
+      <div className="lg:w-1/2 bg-white/10 rounded-xl p-6 shadow-lg backdrop-blur-md animate-fadeIn">
+        <h2 className="text-xl text-pink-400 font-bold mb-2">✨ ライブプレビュー</h2>
         {preview && (
           <img
             src={preview}
@@ -92,8 +105,8 @@ export default function NewPost() {
             className="mb-4 w-full max-h-60 object-cover rounded"
           />
         )}
-        <h3 className="text-2xl font-semibold">{title || "タイトルがここに表示されます"}</h3>
-        <p className="text-sm mt-2 whitespace-pre-wrap">
+        <h3 className="text-2xl font-semibold text-pink-300">{title || "タイトルがここに表示されます"}</h3>
+        <p className="text-sm mt-2 whitespace-pre-wrap text-white/90">
           {content || "ここにストーリーが表示されます"}
         </p>
       </div>
