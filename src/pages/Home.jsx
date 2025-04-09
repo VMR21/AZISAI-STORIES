@@ -16,39 +16,30 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen p-6">
+    <div className="min-h-screen bg-gradient-to-br from-black via-purple-900 to-pink-900 text-white p-6">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-10">
-          <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-pink-400 to-purple-600 text-transparent bg-clip-text glow-text animate-fadeInDown typewriter">
-            AZISAI 🌸 ストーリー
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-pink-400 to-purple-600 text-transparent bg-clip-text">
+            AZISAI ✨ ストーリー
           </h1>
-          <p className="mt-4 text-pink-200 animate-fadeIn delay-100">
-            思い出と日記をここに刻もう。
-          </p>
-          <Link
-            to="/new"
-            className="mt-6 inline-block bg-gradient-to-r from-pink-500 to-purple-700 px-6 py-2 rounded-lg text-white font-bold shadow-xl hover:scale-105 transition"
-          >
-            ➕ 投稿する
-          </Link>
+          <div className="space-x-4">
+            <Link to="/new" className="bg-pink-500 px-4 py-2 rounded hover:scale-105 transition">➕ 投稿</Link>
+            <Link to="/login" className="bg-purple-600 px-4 py-2 rounded hover:scale-105 transition">🔐 ログイン</Link>
+          </div>
         </div>
 
         {posts.length === 0 ? (
-          <p className="text-center text-pink-300 text-xl">まだ投稿がありません。</p>
+          <p className="text-center text-pink-200">まだ投稿がありません。</p>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
             {posts.map(post => (
               <Link
                 key={post.id}
                 to={`/post/${post.id}`}
-                className="glass p-4 hover:scale-[1.03] transition duration-300"
+                className="glass p-4 border border-pink-400 rounded-xl shadow-lg hover:scale-105 transition"
               >
                 {post.image && (
-                  <img
-                    src={post.image}
-                    alt=""
-                    className="rounded-xl object-cover h-40 w-full mb-3 hover:brightness-110 transition"
-                  />
+                  <img src={post.image} className="h-40 w-full object-cover rounded-lg mb-3" />
                 )}
                 <h2 className="text-xl font-bold text-pink-300">{post.title}</h2>
                 <p className="text-sm text-purple-200">{post.date}</p>
