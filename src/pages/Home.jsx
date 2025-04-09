@@ -48,12 +48,14 @@ export default function Home() {
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-black via-purple-950 to-pink-900 text-white p-6 overflow-hidden">
 
-      {/* 🌌 Star Background */}
-      <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
-        <div className="w-full h-full bg-[radial-gradient(white_1px,transparent_1px)] bg-[length:20px_20px] opacity-5 animate-stars" />
+      {/* 🔮 Sexy Animated Background */}
+      <div className="absolute inset-0 -z-50 pointer-events-none overflow-hidden">
+        <div className="absolute w-full h-full bg-[radial-gradient(white_1px,transparent_1px)] bg-[length:20px_20px] opacity-5 animate-stars" />
+        <div className="absolute w-[150%] h-[150%] top-[-25%] left-[-25%] bg-gradient-to-br from-fuchsia-500 via-purple-700 to-indigo-900 opacity-10 rounded-full blur-3xl animate-pulse-slow" />
+        <div className="absolute bottom-10 right-0 w-96 h-96 bg-pink-500 rounded-full blur-[120px] opacity-10 animate-spin-slower" />
       </div>
 
-      {/* 🌊 Wave Background */}
+      {/* 🌊 Wave */}
       <div className="absolute bottom-0 left-0 w-full h-48 overflow-hidden z-0">
         <div className="relative w-[200%] h-full animate-waveMotion">
           <div className="absolute top-0 left-0 w-full h-full bg-[url('/wave.svg')] bg-repeat-x opacity-20" />
@@ -104,7 +106,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Post Grid */}
+        {/* Posts */}
         {posts.length === 0 ? (
           <p className="text-center text-pink-200 text-lg mt-20">まだ投稿がありません。</p>
         ) : (
@@ -126,9 +128,12 @@ export default function Home() {
                   />
                 )}
 
-                <h2 className="text-xl font-bold text-white mb-2 drop-shadow-sm tracking-wide">
-                  {post.title}
-                </h2>
+                <Link to={`/post/${post.id}`}>
+                  <h2 className="text-xl font-bold text-white mb-2 drop-shadow-sm tracking-wide hover:text-pink-400 transition">
+                    {post.title}
+                  </h2>
+                </Link>
+
                 <p className="text-sm text-purple-300 font-mono">{post.date}</p>
 
                 {user && (
