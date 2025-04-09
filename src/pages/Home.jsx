@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { db } from "../firebase/firebase";
-import { collection, onSnapshot, query, orderBy, doc, deleteDoc } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  query,
+  orderBy,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getStorage, ref, deleteObject } from "firebase/storage";
 
@@ -12,7 +19,10 @@ export default function Home() {
   useEffect(() => {
     const q = query(collection(db, "posts"), orderBy("date", "desc"));
     const unsub = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
       setPosts(data);
     });
     return unsub;
@@ -36,9 +46,9 @@ export default function Home() {
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-black via-purple-900 to-pink-900 text-white p-6 overflow-hidden">
+    <div className="relative min-h-screen bg-gradient-to-br from-black via-purple-950 to-pink-900 text-white p-6 overflow-hidden">
       
-      {/* 🌊 Animated Wave Background */}
+      {/* 🌊 Animated Wave Bottom */}
       <div className="absolute bottom-0 left-0 w-full h-32 z-0 overflow-hidden">
         <svg
           className="w-full h-full"
@@ -54,44 +64,70 @@ export default function Home() {
         </svg>
       </div>
 
-      {/* ✨ Page Content */}
+      {/* ✨ Top Header */}
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-pink-400 to-purple-600 text-transparent bg-clip-text animate-pulse tracking-widest">
+          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-pink-400 to-purple-600 text-transparent bg-clip-text animate-pulse tracking-widest drop-shadow-lg">
             AZISAI ✨ ストーリー
           </h1>
           <div className="space-x-4">
             {user ? (
-              <Link to="/new" className="bg-pink-500 px-4 py-2 rounded hover:scale-105 transition">➕ 投稿</Link>
+              <Link
+                to="/new"
+                className="bg-pink-500 px-4 py-2 rounded hover:scale-105 transition shadow-md"
+              >
+                ➕ 投稿
+              </Link>
             ) : (
-              <Link to="/login" className="bg-purple-600 px-4 py-2 rounded hover:scale-105 transition">🔐 ログイン</Link>
+              <Link
+                to="/login"
+                className="bg-purple-600 px-4 py-2 rounded hover:scale-105 transition shadow-md"
+              >
+                🔐 ログイン
+              </Link>
             )}
           </div>
         </div>
 
+        {/* 🧊 Posts */}
         {posts.length === 0 ? (
           <p className="text-center text-pink-200">まだ投稿がありません。</p>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-            {posts.map(post => (
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {posts.map((post, index) => (
               <div
                 key={post.id}
-                className="group glass p-4 border border-pink-400 rounded-xl shadow-lg transition-transform hover:scale-105 hover:shadow-pink-500/30 relative bg-black/30 backdrop-blur-md"
+                className="relative rounded-2xl p-6 bg-gradient-to-br from-purple-800 via-purple-900 to-purple-950 border border-fuchsia-600/30 shadow-[0_0_60px_rgba(236,72,153,0.3)] text-center hover:shadow-pink-500/40 hover:scale-105 transition duration-300"
               >
-                <Link to={`/post/${post.id}`}>
-                  {post.image && (
-                    <img src={post.image} className="h-40 w-full object-cover rounded-lg mb-3" />
-                  )}
-                  <h2 className="text-xl font-extrabold bg-gradient-to-r from-pink-300 via-purple-400 to-pink-300 bg-clip-text text-transparent group-hover:animate-pulse transition">
-                    {post.title}
-                  </h2>
-                  <p className="text-xs text-purple-300 mt-1">{post.date}</p>
-                </Link>
+                {/* Rank number */}
+                <div className="absolute top-3 left-4 text-sm text-pink-400 font-bold">
+                  #{index + 1}
+                </div>
 
+                {/* Optional Image */}
+                {post.image && (
+                  <img
+                    src={post.image}
+                    className="mx-auto mb-4 h-20 w-20 object-cover rounded-full border-2 border-pink-400 shadow-md"
+                    alt="Post"
+                  />
+                )}
+
+                {/* Title */}
+                <h2 className="text-xl font-bold text-white mb-2 drop-shadow-sm tracking-wide">
+                  {post.title}
+                </h2>
+
+                {/* Date */}
+                <p className="text-sm text-purple-300 font-mono">
+                  {post.date}
+                </p>
+
+                {/* Delete button */}
                 {user && (
                   <button
                     onClick={() => handleDelete(post.id, post.image)}
-                    className="absolute bottom-4 right-4 text-xs bg-red-600 px-3 py-1 rounded hover:bg-red-700 transition"
+                    className="mt-4 bg-red-600 text-xs px-3 py-1 rounded hover:bg-red-700 transition"
                   >
                     🗑 削除
                   </button>
