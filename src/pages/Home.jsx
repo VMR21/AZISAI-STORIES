@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { db } from "../firebase/firebase";
-import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
+import { collection, onSnapshot, query, orderBy, doc, deleteDoc } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getStorage, ref, deleteObject } from "firebase/storage";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const q = query(collection(db, "posts"), orderBy("date", "desc"));
@@ -14,6 +17,25 @@ export default function Home() {
     });
     return unsub;
   }, []);
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsub = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+    return () => unsub();
+  }, []);
+
+  const handleDelete = async (id, imageUrl) => {
+    if (window.confirm("本当にこの投稿を削除しますか？")) {
+      await deleteDoc(doc(db, "posts", id));
+      if (imageUrl) {
+        const storage = getStorage();
+        const imageRef = ref(storage, imageUrl);
+        await deleteObject(imageRef).catch(() => {});
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-purple-900 to-pink-900 text-white p-6">
@@ -33,18 +55,24 @@ export default function Home() {
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
             {posts.map(post => (
-              <Link
-                key={post.id}
-                to={`/post/${post.id}`}
-                className="glass p-4 border border-pink-400 rounded-xl shadow-lg hover:scale-105 transition"
-              >
-                {post.image && (
-                  <img src={post.image} className="h-40 w-full object-cover rounded-lg mb-3" />
+              <div key={post.id} className="glass p-4 border border-pink-400 rounded-xl shadow-lg hover:scale-105 transition">
+                <Link to={`/post/${post.id}`}>
+                  {post.image && (
+                    <img src={post.image} className="h-40 w-full object-cover rounded-lg mb-3" />
+                  )}
+                  <h2 className="text-xl font-bold text-pink-300">{post.title}</h2>
+                  <p className="text-sm text-purple-200">{post.date}</p>
+                  <p className="text-sm text-white/80 mt-2 line-clamp-3">{post.content}</p>
+                </Link>
+                {user && (
+                  <button
+                    onClick={() => handleDelete(post.id, post.image)}
+                    className="mt-3 w-full bg-red-600 py-1 rounded text-white font-bold hover:bg-red-700 transition"
+                  >
+                    🗑 投稿を削除
+                  </button>
                 )}
-                <h2 className="text-xl font-bold text-pink-300">{post.title}</h2>
-                <p className="text-sm text-purple-200">{post.date}</p>
-                <p className="text-sm text-white/80 mt-2 line-clamp-3">{post.content}</p>
-              </Link>
+              </div>
             ))}
           </div>
         )}
