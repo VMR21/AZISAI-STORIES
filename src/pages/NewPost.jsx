@@ -93,7 +93,9 @@ export default function NewPost() {
           />
         )}
         <h3 className="text-2xl font-semibold">{title || "タイトルがここに表示されます"}</h3>
-        <p className="text-sm mt-2 whitespace-pre-wrap">{content || "ここにストーリーが表示されます"}</p>
+        <p className="text-sm mt-2 whitespace-pre-wrap">
+          {content || "ここにストーリーが表示されます"}
+        </p>
       </div>
     </div>
   );
