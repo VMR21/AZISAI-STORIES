@@ -11,12 +11,6 @@ export default function NewPost() {
   const [imageFile, setImageFile] = useState(null);
   const [preview, setPreview] = useState(null);
 
-  useEffect(() => {
-    if (localStorage.getItem("loggedIn") !== "true") {
-      navigate("/login");
-    }
-  }, [navigate]);
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImageFile(file);
