@@ -20,10 +20,8 @@ export default function Home() {
 
   useEffect(() => {
     const auth = getAuth();
-    const unsub = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    });
-    return () => unsub();
+    const unsub = onAuthStateChanged(auth, setUser);
+    return unsub;
   }, []);
 
   const handleDelete = async (id, imageUrl) => {
@@ -41,7 +39,7 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-black via-purple-900 to-pink-900 text-white p-6">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-pink-400 to-purple-600 text-transparent bg-clip-text">
+          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-pink-400 to-purple-600 text-transparent bg-clip-text animate-pulse">
             AZISAI ✨ ストーリー
           </h1>
           <div className="space-x-4">
@@ -55,21 +53,26 @@ export default function Home() {
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
             {posts.map(post => (
-              <div key={post.id} className="glass p-4 border border-pink-400 rounded-xl shadow-lg hover:scale-105 transition">
+              <div
+                key={post.id}
+                className="group glass p-4 border border-pink-400 rounded-xl shadow-lg transition-transform hover:scale-105 hover:shadow-pink-500/30 relative"
+              >
                 <Link to={`/post/${post.id}`}>
                   {post.image && (
                     <img src={post.image} className="h-40 w-full object-cover rounded-lg mb-3" />
                   )}
-                  <h2 className="text-xl font-bold text-pink-300">{post.title}</h2>
-                  <p className="text-sm text-purple-200">{post.date}</p>
-                  <p className="text-sm text-white/80 mt-2 line-clamp-3">{post.content}</p>
+                  <h2 className="text-xl font-extrabold bg-gradient-to-r from-pink-300 via-purple-400 to-pink-300 bg-clip-text text-transparent group-hover:animate-pulse transition">
+                    {post.title}
+                  </h2>
+                  <p className="text-xs text-purple-300 mt-1">{post.date}</p>
                 </Link>
+
                 {user && (
                   <button
                     onClick={() => handleDelete(post.id, post.image)}
-                    className="mt-3 w-full bg-red-600 py-1 rounded text-white font-bold hover:bg-red-700 transition"
+                    className="absolute bottom-4 right-4 text-xs bg-red-600 px-3 py-1 rounded hover:bg-red-700 transition"
                   >
-                    🗑 投稿を削除
+                    🗑 削除
                   </button>
                 )}
               </div>
