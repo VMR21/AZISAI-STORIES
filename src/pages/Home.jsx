@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { db } from "../firebase/firebase"; // Make sure your firebase.js exports db
+import { Link, useNavigate } from "react-router-dom";
+import { db } from "../firebase/firebase"; // Ensure your Firestore instance is exported from here
 import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 
 export default function Home() {
+  const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
+  const isLoggedIn = localStorage.getItem("loggedIn") === "true";
 
   useEffect(() => {
-    // Query the "posts" collection ordered by "date" descending
+    // Query the "posts" collection ordered by date (descending)
     const postsQuery = query(collection(db, "posts"), orderBy("date", "desc"));
     const unsubscribe = onSnapshot(postsQuery, (snapshot) => {
       const postsArray = snapshot.docs.map(doc => ({
@@ -24,18 +26,22 @@ export default function Home() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-4xl font-bold text-pink-300">AZISAIの記事</h1>
         <div>
-          <button
-            onClick={() => (window.location.href = "/login")}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:scale-105 transition mr-4"
-          >
-            ログイン
-          </button>
-          <button
-            onClick={() => (window.location.href = "/new")}
-            className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-2 rounded-lg shadow hover:scale-105 transition"
-          >
-            ➕ 投稿する
-          </button>
+          {/* Show login button if not logged in; else show add post button */}
+          {isLoggedIn ? (
+            <button
+              onClick={() => navigate("/new")}
+              className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-2 rounded-lg shadow hover:scale-105 transition"
+            >
+              ➕ 投稿する
+            </button>
+          ) : (
+            <button
+              onClick={() => navigate("/login")}
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:scale-105 transition"
+            >
+              ログイン
+            </button>
+          )}
         </div>
       </div>
       {posts.length === 0 ? (
