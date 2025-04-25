@@ -2,41 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 🌌 Background Animation */
+/* Fancy background + font */
 body {
   @apply bg-gradient-to-br from-black via-purple-950 to-pink-900 text-white;
   background-size: 400% 400%;
-  animation: gradientScroll 30s ease infinite;
+  animation: gradientScroll 20s ease infinite;
   font-family: 'Noto Sans JP', sans-serif;
 }
 
-/* 🔄 Smooth Animated Background */
 @keyframes gradientScroll {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
-/* 🧊 Frosted Glass Effect */
 .glass {
   @apply bg-white/10 backdrop-blur-2xl border border-pink-400/40 rounded-xl shadow-2xl;
 }
 
-/* ✨ Glowing Text */
 .glow-text {
-  text-shadow:
-    0 0 5px #fff,
-    0 0 10px #e91e63,
-    0 0 20px #9c27b0,
-    0 0 40px #e91e63;
-}
-
-/* 💻 Typewriter Cursor Blink */
-.typewriter::after {
-  content: '|';
-  animation: blink 1s infinite;
-}
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  text-shadow: 0 0 5px #fff, 0 0 10px #e91e63, 0 0 20px #9c27b0, 0 0 40px #e91e63;
 }
